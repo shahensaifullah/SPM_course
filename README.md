@@ -1,100 +1,124 @@
-# vinext-starter
+# HNU AIDA — Strategy and Performance Management Field Guide
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+This repository contains my personal educational study website for the
+**Strategy and Performance Management (SPM)** subject in the **AIDA program at
+Hochschule Neu-Ulm (HNU)**.
 
-## Prerequisites
+The guide is designed for a scenario-based English exam. Its main goal is to
+help a student recognise the issue in a business case, select the appropriate
+strategy model, connect evidence to the model, recommend an action, and state a
+meaningful limitation.
 
-- Node.js `>=22.13.0`
+> This is an independent personal learning resource. It is not an official HNU
+> publication. The professor's current lecture pages and wording remain the
+> primary source for the course.
 
-## Quick Start
+## Learning approach
+
+The explanations are mainly in Bangla so the concepts are easier to understand.
+English is retained for model names, formulas, exam vocabulary, and reusable
+answer sentences.
+
+The learning sequence is:
+
+1. Understand the topic and the problem it solves.
+2. Study a fully worked scenario.
+3. Explain the model in your own words.
+4. Recall the important terms without looking at the notes.
+5. Distinguish between similar models in mixed scenarios.
+6. Write an exam answer using `Signal → Model → Evidence → Action → Caveat`.
+
+## Course coverage
+
+The site covers the eight main SPM topics:
+
+1. Definition and Schools
+2. Competition and Positioning
+3. Resource-based Advantages
+4. Strategy Formation
+5. Organizational Design
+6. Ethics and Values
+7. Corporate Performance Management
+8. Objectives and Key Results
+
+It also contains a dedicated preparation lab for **Meta Case Pt. 2**, including
+acquisition ROI, AI/AGI investment, Reality Labs break-even, and Balanced
+Scorecard analysis.
+
+## Main routes
+
+- `/` — course map, topic summaries, scenario decoder, formulas, and exam plan
+- `/topics/[slug]` — detailed Bangla lesson for each course topic
+- `/trainer` — mixed scenario quiz, model contrasts, and SMEAC answer studio
+- `/case-2` — detailed Meta Case Pt. 2 preparation lab
+
+## Interactive learning tools
+
+- Value Stick simulator
+- Five Forces pressure board
+- VRIO decision gates
+- Rumelt Kernel and deliberate–emergent strategy lab
+- Organizational structure-fit selector
+- Ethical decision gate
+- NPV calculator
+- OKR quality game
+- Mixed exam scenario trainer
+- Meta Reality Labs break-even calculator
+
+All interactions run in the browser. The project intentionally uses **no
+database, no Drizzle ORM, no user accounts, and no server-side persistence**.
+Topic-review preferences use browser `localStorage` only.
+
+## Lecture sources
+
+- [Definition and Schools](https://awe-hnu.de/lectures/SPM/26WT/definition/)
+- [Competition and Positioning](https://awe-hnu.de/lectures/SPM/26WT/competition/)
+- [Resource-based Advantages](https://awe-hnu.de/lectures/SPM/26WT/resources/)
+- [Strategy Formation](https://awe-hnu.de/lectures/SPM/26WT/formation/)
+- [Organizational Design](https://awe-hnu.de/lectures/SPM/26WT/organization/)
+- [Ethics and Values](https://awe-hnu.de/lectures/SPM/26WT/ethics/)
+- [Corporate Performance Management](https://awe-hnu.de/lectures/SPM/26WT/cpm/)
+- [Objectives and Key Results](https://awe-hnu.de/lectures/SPM/26WT/OKRs/)
+- [Meta Case Pt. 2 Preparation](https://awe-hnu.de/lectures/SPM/26WT/case-2/preparation.html)
+
+## Technology
+
+- React 19
+- vinext / Vite
+- TypeScript
+- CSS and browser-local state
+- Cloudflare-compatible worker output through OpenAI Sites
+
+`package-lock.json` is the single package-manager lockfile for this project.
+
+## Local development
+
+Requirements: Node.js `>=22.13.0`.
 
 ```bash
 npm install
 npm run dev
-npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+Validation:
 
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+npm test
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+`npm test` runs both linting and the production build.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## Content structure
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+- `app/studyData.ts` — homepage summaries, decoder cases, formulas, and sources
+- `app/topicLessons.ts` — detailed lessons and exam-oriented explanations
+- `app/courseCoverage.ts` — mapping between lecture-page coverage and lessons
+- `app/topics/[slug]/` — detailed topic route and topic-specific learning labs
+- `app/trainer/` — mixed exam-transfer practice
+- `app/case-2/` — Meta case preparation lab
+- `app/globals.css` — complete responsive visual system
+- `public/` — favicon and social preview image
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+## Live site
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+[SPM Field Guide](https://spm-field-guide-hnu.shahensaifullah.chatgpt.site)
