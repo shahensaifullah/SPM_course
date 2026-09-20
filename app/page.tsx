@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { decoder, formulas, scenarios, sources, topics } from "./studyData";
 
 function Mark({ done }: { done: boolean }) {
@@ -53,8 +54,8 @@ export default function Home() {
       <header className="topbar">
         <a className="brand" href="#top"><span>SPM</span> Field Guide</a>
         <nav aria-label="Primary navigation">
-          <a href="#map">Course map</a><a href="#learn">Learn</a><a href="#decoder">Decoder</a><a href="#practice">Practice</a>
-          <a className="navCta" href="#plan">Exam plan</a>
+          <a href="#map">Course map</a><a href="#learn">Learn</a><a href="#decoder">Decoder</a><Link href="/case-2">Meta Case</Link>
+          <Link className="navCta" href="/trainer">Exam Trainer</Link>
         </nav>
       </header>
 
@@ -62,7 +63,7 @@ export default function Home() {
         <div className="eyebrow"><span /> HNU · Strategic Performance Management</div>
         <h1>See the signal.<br /><em>Name the model.</em></h1>
         <p className="lede">An exam-first study system for turning business scenarios into the right strategic framework—and explaining why it fits.</p>
-        <div className="heroActions"><a className="primaryBtn" href="#map">Follow the strategy flow <b>→</b></a><a className="textLink" href="#decoder">Decode a scenario</a></div>
+        <div className="heroActions"><a className="primaryBtn" href="#map">Follow the strategy flow <b>→</b></a><Link className="textLink" href="/trainer">Open mixed exam lab</Link></div>
         <div className="examFormula"><span>THE EXAM MOVE</span><strong>Signal → Model → Evidence → Action → Caveat</strong></div>
       </section>
 
