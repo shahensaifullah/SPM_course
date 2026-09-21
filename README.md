@@ -142,3 +142,34 @@ npm test
 ## Live site
 
 [SPM Field Guide](https://spm-field-guide-hnu.shahensaifullah.chatgpt.site)
+
+## Deploying to Vercel
+
+The project is configured as a statically generated Nuxt application. Vercel
+uses npm even when local development uses pnpm:
+
+- Install command: `npm ci`
+- Build command: `npm run build`
+- Output directory: `.output/public`
+- Framework preset: `Nuxt.js`
+
+### Deploy from GitHub
+
+1. Push the repository to GitHub. Commit `package-lock.json`; do not commit the
+   ignored pnpm lock/workspace files.
+2. In Vercel, choose **Add New → Project** and import the GitHub repository.
+3. Vercel reads `vercel.json`, so normally no build settings need changing.
+4. Verify that the detected framework is **Nuxt.js**, then select **Deploy**.
+5. Future pushes to the production branch trigger new deployments automatically.
+
+No database or environment variables are required for this study website.
+
+### Deploy with the Vercel CLI
+
+```bash
+npx vercel
+npx vercel --prod
+```
+
+The first command creates a preview deployment. The second publishes to the
+production domain.

@@ -4,8 +4,14 @@ import { topics } from '~/studyData'
 const props = defineProps<{ lesson: any; activeModel: number }>()
 const emit = defineEmits<{ selectModel: [index: number] }>()
 const open = ref(false)
+const collapsed = ref(false)
 const route = useRoute()
 watch(() => route.fullPath, () => { open.value = false })
+
+function toggleNavigator(){
+  if(import.meta.client && window.matchMedia('(min-width: 1181px)').matches) collapsed.value = !collapsed.value
+  else open.value = !open.value
+}
 
 function chooseModel(index:number){
   emit('selectModel', index)
@@ -15,11 +21,11 @@ function chooseModel(index:number){
 </script>
 
 <template>
-  <button class="outlineToggle" :aria-expanded="open" aria-controls="topic-outline" @click="open=!open">
-    <span>☰</span><b>Outline</b>
+  <button class="outlineToggle" :class="{collapsed}" :aria-expanded="open || !collapsed" aria-controls="topic-outline" @click="toggleNavigator">
+    <span>{{collapsed ? '☰' : '›'}}</span><b>{{collapsed ? 'Outline' : 'Hide'}}</b>
   </button>
   <div v-if="open" class="outlineBackdrop" @click="open=false" />
-  <aside id="topic-outline" class="topicNavigator" :class="{open}">
+  <aside id="topic-outline" class="topicNavigator" :class="{open,collapsed}">
     <div class="navigatorHead"><div><small>STUDY NAVIGATOR</small><strong>{{lesson.number}} · {{lesson.title}}</strong></div><button aria-label="Close topic navigator" @click="open=false">×</button></div>
     <div class="navigatorScroll">
       <section>

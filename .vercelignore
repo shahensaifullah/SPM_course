@@ -1,0 +1,11 @@
+node_modules
+.nuxt
+.output
+dist
+outputs
+.idea
+.spm-project-context.md
+pnpm-lock.yaml
+pnpm-workspace.yaml
+npm-debug.log*
+.DS_Store
