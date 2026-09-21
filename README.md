@@ -63,7 +63,9 @@ Scorecard analysis.
 - NPV calculator
 - OKR quality game
 - Mixed exam scenario trainer
-- Meta Reality Labs break-even calculator
+- 60-second teach-back drills
+- Topic-specific scenario sprints
+- Meta-case NPV calculator
 
 All interactions run in the browser. The project intentionally uses **no
 database, no Drizzle ORM, no user accounts, and no server-side persistence**.
@@ -83,40 +85,58 @@ Topic-review preferences use browser `localStorage` only.
 
 ## Technology
 
-- React 19
-- vinext / Vite
+- Nuxt.js 4
+- Vue 3
 - TypeScript
-- CSS and browser-local state
-- Cloudflare-compatible worker output through OpenAI Sites
+- Custom responsive CSS and browser-local state
+- Static generation for simple personal hosting
 
-`package-lock.json` is the single package-manager lockfile for this project.
+The phone/tablet interface is designed around a right-handed thumb zone. On
+Pixel-sized phones and Galaxy Tab-sized screens, a fixed dock places the main
+`Train` or `Next` action at the far right and keeps every target at least 48px
+tall. No UI library or database is required.
+
+Local development may use pnpm, while the committed GitHub/CI lockfile is
+`package-lock.json`. The local `pnpm-lock.yaml` and `pnpm-workspace.yaml` files
+are intentionally ignored by Git.
 
 ## Local development
 
 Requirements: Node.js `>=22.13.0`.
 
 ```bash
-npm install
-npm run dev
+corepack enable
+pnpm install
+pnpm dev
 ```
 
 Validation:
 
 ```bash
-npm test
+pnpm test
 ```
 
-`npm test` runs both linting and the production build.
+`pnpm test` runs the production static build. Output is written to
+`.output/public`.
+
+For GitHub Actions or another npm-based environment, use:
+
+```bash
+npm ci
+npm test
+```
 
 ## Content structure
 
 - `app/studyData.ts` — homepage summaries, decoder cases, formulas, and sources
 - `app/topicLessons.ts` — detailed lessons and exam-oriented explanations
 - `app/courseCoverage.ts` — mapping between lecture-page coverage and lessons
-- `app/topics/[slug]/` — detailed topic route and topic-specific learning labs
-- `app/trainer/` — mixed exam-transfer practice
-- `app/case-2/` — Meta case preparation lab
-- `app/globals.css` — complete responsive visual system
+- `app/pages/topics/[slug].vue` — detailed dynamic topic route
+- `app/components/TopicLab.vue` — topic-specific model simulators
+- `app/components/LearningBooster.vue` — scenario sprint and teach-back practice
+- `app/pages/trainer.vue` — mixed exam-transfer practice
+- `app/pages/case-2.vue` — Meta case preparation lab
+- `app/assets/css/main.css` — responsive visual system
 - `public/` — favicon and social preview image
 
 ## Live site
