@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-09-01",
   devtools: { enabled: false },
   css: ["~/assets/css/main.css"],
-  ssr: true,
+  ssr: false,
   nitro: {
     preset: "static",
     prerender: {
